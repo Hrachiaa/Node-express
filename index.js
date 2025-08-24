@@ -1,12 +1,12 @@
 const express = require('express');
-const userRuotes = require('./routes/userRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
 const questionRoutes = require('./routes/questionRoutes.js');
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
-app.use('/', userRuotes);
+app.use('/', userRoutes);
 app.use('/', questionRoutes);
 
 app.listen(PORT, () => console.log(`Server is working on PORT ${PORT}`));

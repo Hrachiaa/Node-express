@@ -16,13 +16,29 @@ class UserController {
     async getOneUser(req, res) {
         const id = req.params.id;
         const user = await db.query('SELECT * FROM users where id = $1', [id]);
+        if (user.rows.length === 0) {
+            return res.status(404).json({
+                id: id,
+                status: 'User not found',
+            });
+        }
         res.json(user.rows[0]);
     }
     async deleteUser(req, res) {
         const id = req.params.id;
+        const user = await db.query('SELECT * FROM users where id = $1', [id]);
+        if (user.rows.length === 0) {
+            return res.status(404).json({
+                id,
+                status: 'User not found',
+            });
+        }
         await db.query('DELETE FROM questions where userid = $1', [id]);
         await db.query('DELETE FROM users where id = $1', [id]);
-        res.json(`User with id ${id} was deleted`);
+        res.json({
+            id,
+            status: 'User deleted',
+        });
     }
 }
 
